@@ -46,19 +46,11 @@ const CartProvider: React.FC = ({ children }) => {
       const productIndex = products.findIndex(item => item.id === product.id);
 
       if (productIndex < 0) {
-        await AsyncStorage.setItem(
-          '@GoMarketplace:products',
-          JSON.stringify([...products, product]),
-        );
+        product.quantity = 1;
 
         setProducts([...products, product]);
       } else {
         products[productIndex].quantity += 1;
-
-        await AsyncStorage.setItem(
-          '@GoMarketplace:products',
-          JSON.stringify([...products]),
-        );
 
         setProducts([...products]);
       }
@@ -70,11 +62,6 @@ const CartProvider: React.FC = ({ children }) => {
     async id => {
       const productIndex = products.findIndex(item => item.id === id);
       products[productIndex].quantity += 1;
-
-      await AsyncStorage.setItem(
-        '@GoMarketplace:products',
-        JSON.stringify([...products]),
-      );
 
       setProducts([...products]);
     },
@@ -88,12 +75,6 @@ const CartProvider: React.FC = ({ children }) => {
 
       if (qty > 1) {
         products[productIndex].quantity -= 1;
-
-        await AsyncStorage.setItem(
-          '@GoMarketplace:products',
-          JSON.stringify([...products]),
-        );
-
         setProducts([...products]);
       } else {
         products.splice(productIndex, 1);
